@@ -12,9 +12,6 @@
 
 
 
-
-Detecting and locating emitted fluids in the water column is necessary for studying margins, identifying natural resources, and preventing geohazards. Fluids can be detected in the water column using multibeam echosounder data. 
-
 <div align="center">
 <table>
   <tr>
@@ -23,7 +20,7 @@ Detecting and locating emitted fluids in the water column is necessary for study
 </table>
 </div>
 
-However, manually analyzing the huge volume of this data for geoscientists is a very time-consuming task. Our study investigated the use of a YOLO-based deep learning supervised approach to automate the detection of fluids emitted from cold seeps (gaseous methane) and volcanic sites (liquid carbon dioxide). Several thousand annotated echograms collected from different seas and oceans during distinct surveys were used to train and test the deep learning model. Additionally, we thoroughly analyzed the composition of the training dataset and evaluated the detection performance based on various training configurations. The tests were conducted on a dataset comprising hundreds of thousands of echograms i) acquired with three different multibeam echosounders (Kongsberg EM302 and EM122 and Reson Seabat 7150) and ii) characterized by variable water column noise conditions related to sounder artefacts and the presence of biomass (fishes, dolphins). 
+YOLOv5-WAL is a YOLOv5-based deep learning supervised approach to automate the detection of fluids emitted from cold seeps (gaseous methane) and volcanic sites (liquid carbon dioxide). Several thousand annotated echograms collected from different seas and oceans during distinct surveys were used to train and test the deep learning model. The tests were conducted on a dataset comprising hundreds of thousands of echograms i) acquired with three different multibeam echosounders (Kongsberg EM302 and EM122 and Reson Seabat 7150) and ii) characterized by variable water column noise conditions related to sounder artefacts and the presence of biomass (fishes, dolphins). 
 
 
 This repository contains the code for inference with YOLOv5 and models trained for fluid emission detection on various Multibeam Echosounders (EM122, EM302, Reson Seabat 7150). This fluid detector was already used for near-real time acquisition detection during the cruises  [MAYOBS23 (EM122 - 2022)]([URL](https://campagnes.flotteoceanographique.fr/campaign?id=18002494)) and  [HAITI-TWIST (Seabat Reson 7150 - 2024)]([URL](https://campagnes.flotteoceanographique.fr/campagnes/18001258)).
@@ -37,15 +34,25 @@ Weights of the neural networks are available on the following doi:
 
 ## Table of Contents
 
-
+- [*WAL*: Fluid emission detection- by *W*ater-column *A*coustics and deep *L*earning-approach](#wal-fluid-emission-detection--by-water-column-acoustics-and-deep-learning-approach)
+  - [Table of Contents](#table-of-contents)
+  - [How to install YOLOv5-WAL](#how-to-install-yolov5-wal)
+  - [How to perform an inference on multi-beam data with GLOBE ](#how-to-perform-an-inference-on-multi-beam-data-with-globe-)
+    - [Bonus: Water column visualization](#bonus-water-column-visualization)
+  - [Inference with YOLOv5-WAL example](#inference-with-yolov5-wal-example)
+    - [Parameters to be set for the inference](#parameters-to-be-set-for-the-inference)
+    - [Results](#results)
+  - [Acknowlegdements](#acknowlegdements)
+  - [Licence](#licence)
+  - [Contact](#contact)
 
 
 ## How to install YOLOv5-WAL
 
-Here's how to install the environment. 
+Here is how to install the environment. 
 
 ```
-git clone https://github.com/this_code
+git clone https://github.com/perrettymea/YOLO-WAL-fluid-detection-WCI-data
 conda create -n YOLOV5G3D
 conda activate YOLOV5G3D
 ```
@@ -61,15 +68,17 @@ pip install -r requirements.txt
 pip install netCDF4 #to read g3D file
 ```
 
-## How to perform an inference on multi-beam data with GLOBE
+## How to perform an inference on multi-beam data with GLOBE ![Icône](IMG/LOGO/IconeGlobe24.png)
 
-Your MBES data is in raw format (.all/.wcd, .kmall, .s7k...), so you'll need to convert it to get a cartesian representation of each ping:
+First, MBES data are acquired in raw format (e.g, .all/.wcd, .kmall, .s7k datagrams). For inference with YOLOv5-WAL it is necessary to convert them to a Cartesian representation of each ping. This can be done using the GLOBE software. GLOBE (GLobal Oceanographic Bathymetry Explorer) is an innovative application for processing and displaying oceanographic data. GLOBE provides processing and display solutions for multi-sensor data (such as water column MBES data). GLOBE can be downloaded [here](https://www.seanoe.org/data/00592/70460/) for Linux and Windows.
 
 
 **Manual method**
 
 
 Converting the raw file into a g3D file:
+
+* Load your raw file by clicking on: Data :arrow_forward: Import :arrow_forward:Load data file
 
 * Convert your raw file in XSF (following the SONAR-netcf4 convention for sonar data).
 <div align="center">
@@ -80,7 +89,10 @@ Converting the raw file into a g3D file:
 </table>
 </div>
 
-* Our file is not already in cartesian representation so we to need to convert it in G3D netcdf format.
+Select **xsf** output format and where you want to save this new file. 
+
+
+* This file is not already in cartesian representation so we to need to convert it in G3D netcdf format (WC Polar Echograms).
 
 <div align="center">
 <table>
@@ -90,7 +102,13 @@ Converting the raw file into a g3D file:
 </table>
 </div>
 
-This G3D contains the following informations that you can access:
+It is possible to configure:
+* Parameters for interpolation (from polar to cartesian representation)
+* Filtering for dB value, bottom detection, sidelobe, beam index, depth or across distance.
+* Subsampling
+* Layers you want to export: backscatter (mean, max). We do not advise to consider *bacscatter_comp* layers for this detection case.
+  
+:heavy_check_mark: This G3D contains the following informations that you can access:
 
 
 ```
@@ -120,14 +138,26 @@ Groups:
             standard_name: backscatter_mean
 ```
 
-This manual method must be used for all raw files before inference. Coming soon **Robot/automatic method to automatically infer on raw data**
+This manual method must be used for all raw files before inference. 
 
 
+:arrow_forward:Coming soon **Robot/automatic method to automatically infer on raw data**
 
+:arrow_forward:If you have other software/code that can extract pings from the water column and represent it as a 2D-cartesian-matrix format (numpy, as with g3D), you can direct it to the neural network for inference. As neural networks were not trained on our specific format, be careful to fit with g3D outputs.
 
-If you have other software/code that can extract pings from the water column and represent it as a 2D-cartesian-matrix format (numpy, as with g3D), you can direct it to the neural network for inference. As neural networks were not trained on our specific format, be careful to fit with g3D outputs.
+### Bonus: Water column visualization
 
-## Parameters to be set for the inference
+GLOBE can also help you to visualize your water column 2D data by selecting the **xsf** file :arrow_forward: Open with :arrow_forward: Water Column 2D viewer. This tool will allows you to visualize Water Column Images ping per ping.
+
+## Inference with YOLOv5-WAL example
+
+Python code for inference can be run using the following line:
+
+```
+python inference_on_G3D.py  --name_acquisition TEST --confidence_threshold 0.3 --name_model PAMELA_MOZ1_EM122_EM302_Reson_Seabat.pt
+```
+
+### Parameters to be set for the inference
 
 
 * *G3D*: Path to the folder containing G3D files for inference (default: 'G3D')
@@ -140,18 +170,12 @@ If you have other software/code that can extract pings from the water column and
 * *dB_min*: Minimum dB value for data normalization (default: -50)
 * *dB_max*: Maximum dB value for data normalization (default: 10)
 
-In the event that the dB_min/dB_max values are not adequately defined, the resulting inference will be of poor quality. This is due to the fact that the discrepancy between the features of the training and inference data will be too significant. You have to fix these limits in order to see properly your fluid echoes.
+dB_min/dB_max allow to normalize data for inference. Values below dB_min an above dB_max will be clipped to this value. You have to fix these limits in order to see properly your fluid echoes, used for example the limits of the colorbar you used. In the event that the dB_min/dB_max values are not adequately defined, the resulting inference will be of poor quality. This is due to the fact that the discrepancy between the features of the training and inference data will be too significant. You have to fix these limits in order to see properly your fluid echoes.
 
 For more documentation YOLOv5 training see : [YOLOv5 documentation](https://github.com/ultralytics/yolov5)
 
 
-## Example Usage
-
-```
-python inference_on_G3D.py  --name_acquisition TEST --confidence_threshold 0.3 --name_model PAMELA_MOZ1_EM122_EM302_Reson_Seabat.pt
-```
-
-**Results:**
+### Results
 
 <div align="center">
 <table>
@@ -179,7 +203,7 @@ The following parameters were recorded for each detection:
 |-----------------------------------|---------------------------------------------------------|
 | **Longitude (WGS84)**             | Longitude of the detected object (center of the box).                       |
 | **Latitude (WGS84)**                      | Latitude of the detected object (center of the box).                        |
-| **Average Height**               | Average height calculated as \((h_{\text{min box}} + h_{\text{max box}}) / 2\). |
+| **Average Depth**               | Average depth calculated as \((h_{\text{min box}} + h_{\text{max box}}) / 2\). |
 | **File Name**                    | Name of the file where the detection occurred.         |
 | **Ping**                         | The specific ping number associated with the detection. |
 | **Box Coordinates**              | Coordinates of the bounding box in the image (in pixels).          |
@@ -192,9 +216,19 @@ The following parameters were recorded for each detection:
 
 
 For more details please refer to the following resources:
-* Article link
-* [YOLOv5 documentation]([URL](https://github.com))
+* Frontiers article link (Rules for training set composition)
+* [Knowledge transfer for deep-learning gas-bubble detection in underwater acoustic water column data](https://www.ioa.org.uk/catalogue/paper/knowledge-transfer-deep-learning-gas-bubble-detection-underwater-acoustic-water) (How to train neural network for a cruise without having seep data on the MBES you want to use)
+* [YOLOv5 documentation](https://github.com/ultralytics/yolov5)
 * [GLOBE](https://www.seanoe.org/data/00592/70460/)
 
+## Acknowlegdements
+
+  The GAZCOGNE1 marine expedition was part of the PAMELA project and was co-funded by TotalEnergies and IFREMER for the exploration of continental margins. The GHASS2 marine expedition was co-funded by the Agence Nationale de la Recherche for the BLAck sea MEthane (BLAME) project and IFREMER. MAYOBS21 and 23 were conducted by several French research institutions and laboratories, namely IPGP, CNRS, BRGM, and IFREMER. The project was funded by the Mayotte volcanological and seismological monitoring network (REVOSIMA), a partnership between IPGP, BRGM, OVPF-IPGP, CNRS, and IFREMER. This study presents the findings of a PhD project that was funded by IFREMER and the Brittany region through an ARED grant.
+We wish to express our gratitude to the officers and crews of the research vessels Le Suroît, Pourquoi pas ?, and Marion Dufresne, as well as the technical staff from Genavir and Ifremer.
+
+## Licence
+
+This repository is under AGPL-3.0 as YOLOv5 from [Ultralytics](https://github.com/ultralytics/yolov5). This OSI-approved open-source license is ideal for students and enthusiasts, promoting open collaboration and knowledge sharing. See the LICENSE file for more details.
+
 ## Contact
-For questions or support, please contact tymea.perret@ifremer.fr.
+:mailbox_with_no_mail: For questions or support, please contact tymea.perret@ifremer.fr.
