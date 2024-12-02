@@ -38,6 +38,7 @@ Weights of the neural networks are available on the following doi:
   - [Table of Contents](#table-of-contents)
   - [How to install YOLOv5-WAL](#how-to-install-yolov5-wal)
   - [How to perform an inference on multi-beam data with GLOBE ](#how-to-perform-an-inference-on-multi-beam-data-with-globe-)
+    - [Manual method](#manual-method)
     - [Bonus: Water column visualization](#bonus-water-column-visualization)
   - [Inference with YOLOv5-WAL example](#inference-with-yolov5-wal-example)
     - [Parameters to be set for the inference](#parameters-to-be-set-for-the-inference)
@@ -53,27 +54,16 @@ Here is how to install the environment.
 
 ```
 git clone https://github.com/perrettymea/YOLO-WAL-fluid-detection-WCI-data
-conda create -n YOLOV5G3D
-conda activate YOLOV5G3D
-```
-
-```
-conda install pytorch==2.0.1 torchvision==0.15.2 torchaudio==2.0.2 -c pytorch
-```
-Then:
-
-```
-cd yolov5
-pip install -r requirements.txt
-pip install netCDF4 #to read g3D file
+cd requirements
+conda env create -f YOLOV5WAL.yml
+conda activate YOLOV5WAL
 ```
 
 ## How to perform an inference on multi-beam data with GLOBE ![Icône](IMG/LOGO/IconeGlobe24.png)
 
 First, MBES data are acquired in raw format (e.g, .all/.wcd, .kmall, .s7k datagrams). For inference with YOLOv5-WAL it is necessary to convert them to a Cartesian representation of each ping. This can be done using the GLOBE software. GLOBE (GLobal Oceanographic Bathymetry Explorer) is an innovative application for processing and displaying oceanographic data. GLOBE provides processing and display solutions for multi-sensor data (such as water column MBES data). GLOBE can be downloaded [here](https://www.seanoe.org/data/00592/70460/) for Linux and Windows.
 
-
-**Manual method**
+### Manual method
 
 
 Converting the raw file into a g3D file:
@@ -141,8 +131,6 @@ Groups:
 This manual method must be used for all raw files before inference. 
 
 
-:arrow_forward:Coming soon **Robot/automatic method to automatically infer on raw data**
-
 :arrow_forward:If you have other software/code that can extract pings from the water column and represent it as a 2D-cartesian-matrix format (numpy, as with g3D), you can direct it to the neural network for inference. As neural networks were not trained on our specific format, be careful to fit with g3D outputs.
 
 ### Bonus: Water column visualization
@@ -154,7 +142,7 @@ GLOBE can also help you to visualize your water column 2D data by selecting the 
 Python code for inference can be run using the following line:
 
 ```
-python inference_on_G3D.py  --name_acquisition TEST --confidence_threshold 0.3 --name_model PAMELA_MOZ1_EM122_EM302_Reson_Seabat.pt
+python inference_on_G3D.py  --name_acquisition DEMO --confidence_threshold 0.3 --name_model GHASS2_Reson_Seabat.pt --dB_min 20 --dB_max 70
 ```
 
 ### Parameters to be set for the inference
@@ -185,7 +173,7 @@ For more documentation YOLOv5 training see : [YOLOv5 documentation](https://gith
 </table>
 </div>
 
-Folders are created, one with the images on which the detections are made and one with the coordinates of the detections, sorted by the original G3D file.
+(Here *db_min* and *dB_max* are very high, du to a Reson Seabat 7150 specificity). Folders are created, one with the images on which the detections are made and one with the coordinates of the detections, sorted by the original G3D file.
 
 <div align="center">
 <table>
@@ -211,19 +199,32 @@ The following parameters were recorded for each detection:
 
 
 
+This file (in *coord_detections_center* folder) can be loaded in GLOBE using data :arrow_forward: Import :arrow_forward: Load data file :arrow_forward: Select your file:
+Then select "point cloud" to describe this data and then select ASCII parameters:
+<div align="center">
+<table>
+  <tr>
+    <td><img src="IMG\SCREENSHOTS\ASCII_config.JPG" alt="ASCIIconfig" ></td>
+  </tr>
+</table>
+</div>
 
 
+Then right-click on your point-cloud file and "Go-to" to visualize these detections.
+Here a visualization of our detections with the Water column 2D Viewer playing:
 
+![GIF_GLOBE_detection](IMG/Illustration_github.gif)
 
-For more details please refer to the following resources:
-* Frontiers article link (Rules for training set composition)
-* [Knowledge transfer for deep-learning gas-bubble detection in underwater acoustic water column data](https://www.ioa.org.uk/catalogue/paper/knowledge-transfer-deep-learning-gas-bubble-detection-underwater-acoustic-water) (How to train neural network for a cruise without having seep data on the MBES you want to use)
-* [YOLOv5 documentation](https://github.com/ultralytics/yolov5)
-* [GLOBE](https://www.seanoe.org/data/00592/70460/)
+:star: For more details please refer to the following resources:
+* :newspaper: Frontiers article link (Rules for training set composition)
+* :newspaper:[Knowledge transfer for deep-learning gas-bubble detection in underwater acoustic water column data](https://www.ioa.org.uk/catalogue/paper/knowledge-transfer-deep-learning-gas-bubble-detection-underwater-acoustic-water) (How to train neural network for a cruise without having seep data on the MBES you want to use)
+* :computer: [YOLOv5 documentation](https://github.com/ultralytics/yolov5)
+* :computer:[GLOBE](https://www.seanoe.org/data/00592/70460/)
 
 ## Acknowlegdements
 
-  The GAZCOGNE1 marine expedition was part of the PAMELA project and was co-funded by TotalEnergies and IFREMER for the exploration of continental margins. The GHASS2 marine expedition was co-funded by the Agence Nationale de la Recherche for the BLAck sea MEthane (BLAME) project and IFREMER. MAYOBS21 and 23 were conducted by several French research institutions and laboratories, namely IPGP, CNRS, BRGM, and IFREMER. The project was funded by the Mayotte volcanological and seismological monitoring network (REVOSIMA), a partnership between IPGP, BRGM, OVPF-IPGP, CNRS, and IFREMER. This study presents the findings of a PhD project that was funded by IFREMER and the Brittany region through an ARED grant.
+The GAZCOGNE1 marine expedition was part of the PAMELA project and was co-funded by TotalEnergies and IFREMER for the exploration of continental margins. The GHASS2 marine expedition was co-funded by the Agence Nationale de la Recherche for the BLAck sea MEthane (BLAME) project and IFREMER. MAYOBS21 and 23 were conducted by several French research institutions and laboratories, namely IPGP, CNRS, BRGM, and IFREMER. The project was funded by the Mayotte volcanological and seismological monitoring network (REVOSIMA), a partnership between IPGP, BRGM, OVPF-IPGP, CNRS, and IFREMER. This study presents the findings of a PhD project that was funded by IFREMER and the Brittany region through an ARED grant.
+
 We wish to express our gratitude to the officers and crews of the research vessels Le Suroît, Pourquoi pas ?, and Marion Dufresne, as well as the technical staff from Genavir and Ifremer.
 
 ## Licence

@@ -421,7 +421,7 @@ if __name__ == "__main__":
 
     parser.add_argument(
         "--dB_min",
-        default=-40,
+        default=-50,
         type=int,
         help="Min dB value to normalize data",
     )
