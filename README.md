@@ -61,7 +61,7 @@ conda activate YOLOV5WAL
 
 ## How to perform an inference on multi-beam data with GLOBE ![Icône](IMG/LOGO/IconeGlobe24.png)
 
-First, MBES data are acquired in raw format (e.g, .all/.wcd, .kmall, .s7k datagrams). For inference with YOLOv5-WAL it is necessary to convert them to a Cartesian representation of each ping. This can be done using the GLOBE software. GLOBE (GLobal Oceanographic Bathymetry Explorer) is an innovative application for processing and displaying oceanographic data. GLOBE provides processing and display solutions for multi-sensor data (such as water column MBES data). GLOBE can be downloaded [here](https://www.seanoe.org/data/00592/70460/) for Linux and Windows.
+First, MBES data are acquired in raw format (e.g, .all/.wcd, .kmall, .s7k datagrams). For inference with YOLOv5-WAL it is necessary to convert them to a Cartesian representation for each ping. This can be done using the GLOBE software. GLOBE (GLobal Oceanographic Bathymetry Explorer) is an innovative application for processing and displaying oceanographic data. GLOBE provides processing and display solutions for multi-sensor data (such as water column MBES data). GLOBE can be downloaded [here](https://www.seanoe.org/data/00592/70460/) for Linux and Windows.
 
 ### Manual method
 
@@ -213,7 +213,7 @@ Then select "point cloud" to describe this data and then select ASCII parameters
 Then right-click on your point-cloud file and "Go-to" to visualize these detections.
 Here a visualization of our detections with the Water column 2D Viewer playing:
 
-![GIF_GLOBE_detection](IMG/Illustration_github.gif)
+![GIF_GLOBE_detection](IMG/SEANOE.gif)
 
 :star: For more details please refer to the following resources:
 * :newspaper: Frontiers article link (Rules for training set composition)
