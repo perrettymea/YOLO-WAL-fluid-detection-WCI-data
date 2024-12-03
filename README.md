@@ -29,13 +29,7 @@ Weights of the neural networks are available on the following doi:
 
 
 
-
-
-
-## Table of Contents
-
 - [*WAL*: Fluid emission detection- by *W*ater-column *A*coustics and deep *L*earning-approach](#wal-fluid-emission-detection--by-water-column-acoustics-and-deep-learning-approach)
-  - [Table of Contents](#table-of-contents)
   - [How to install YOLOv5-WAL](#how-to-install-yolov5-wal)
   - [How to perform an inference on multi-beam data with GLOBE ](#how-to-perform-an-inference-on-multi-beam-data-with-globe-)
     - [Manual method](#manual-method)
