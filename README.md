@@ -214,6 +214,7 @@ Then right-click on your point-cloud file and "Go-to" to visualize these detecti
 Here a visualization of our detections with the Water column 2D Viewer playing:
 
 ![GIF_GLOBE_detection](IMG/SEANOE.gif)
+  *WC 2D player with fluid echoes on Water Column Images, center of boxes detected are in red*
 
 :star: For more details please refer to the following resources:
 * :newspaper: Frontiers article link (Rules for training set composition)
