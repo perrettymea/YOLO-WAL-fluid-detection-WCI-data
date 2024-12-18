@@ -241,6 +241,7 @@ def _processfile(model, input_file : Path,  FOLDER_RESULT:Path, name_acquisition
                 valeurs_variable = np.flipud(valeurs_variable)
                 # values in dB min max observed on a file to reproduce the data in dB on a 0 to 255 scale (which will be normalised afterwards...)
                 valeurs_variable_normalized = (valeurs_variable - dB_min) / (dB_max - dB_min) * 255
+                valeurs_variable_normalized = np.clip(valeurs_variable_normalized, 0, 255).astype(np.uint8)
                 valeurs_variable_normalized = np.nan_to_num(valeurs_variable_normalized, nan=0)
                 normalized_array = valeurs_variable_normalized.astype(np.uint8)
                 img = cv2.merge([normalized_array, normalized_array, normalized_array])

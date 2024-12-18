@@ -10,7 +10,17 @@
 </table>
 </div>
 
-
+- [*WAL*: Fluid emission detection- by *W*ater-column *A*coustics and deep *L*earning-approach](#wal-fluid-emission-detection--by-water-column-acoustics-and-deep-learning-approach)
+  - [How to install YOLOv5-WAL](#how-to-install-yolov5-wal)
+  - [How to perform an inference on multi-beam data with GLOBE ](#how-to-perform-an-inference-on-multi-beam-data-with-globe-)
+    - [Manual method](#manual-method)
+    - [Bonus: Water column visualization](#bonus-water-column-visualization)
+  - [Inference with YOLOv5-WAL example](#inference-with-yolov5-wal-example)
+    - [Parameters to be set for the inference](#parameters-to-be-set-for-the-inference)
+    - [Results](#results)
+  - [Acknowlegdements](#acknowlegdements)
+  - [Licence](#licence)
+  - [Contact](#contact)
 
 <div align="center">
 <table>
@@ -27,19 +37,6 @@ This repository contains the code for inference with YOLOv5 and models trained f
 
 Weights of the neural networks are available on the following doi:
 
-
-
-- [*WAL*: Fluid emission detection- by *W*ater-column *A*coustics and deep *L*earning-approach](#wal-fluid-emission-detection--by-water-column-acoustics-and-deep-learning-approach)
-  - [How to install YOLOv5-WAL](#how-to-install-yolov5-wal)
-  - [How to perform an inference on multi-beam data with GLOBE ](#how-to-perform-an-inference-on-multi-beam-data-with-globe-)
-    - [Manual method](#manual-method)
-    - [Bonus: Water column visualization](#bonus-water-column-visualization)
-  - [Inference with YOLOv5-WAL example](#inference-with-yolov5-wal-example)
-    - [Parameters to be set for the inference](#parameters-to-be-set-for-the-inference)
-    - [Results](#results)
-  - [Acknowlegdements](#acknowlegdements)
-  - [Licence](#licence)
-  - [Contact](#contact)
 
 
 ## How to install YOLOv5-WAL
@@ -88,7 +85,7 @@ Select **xsf** output format and where you want to save this new file.
 
 It is possible to configure:
 * Parameters for interpolation (from polar to cartesian representation)
-* Filtering for dB value, bottom detection, sidelobe, beam index, depth or across distance.
+* Filtering for dB value, bottom detection, sidelobe, beam index, depth or across distance. We advise to use WCIs cut after bottom detection.
 * Subsampling
 * Layers you want to export: backscatter (mean, max). We do not advise to consider *bacscatter_comp* layers for this detection case.
   
@@ -125,7 +122,7 @@ Groups:
 This manual method must be used for all raw files before inference. 
 
 
-:arrow_forward:If you have other software/code that can extract pings from the water column and represent it as a 2D-cartesian-matrix format (numpy, as with g3D), you can direct it to the neural network for inference. As neural networks were not trained on our specific format, be careful to fit with g3D outputs.
+:arrow_forward:If you have other software/code that can extract pings from the water column and represent it as a 2D-cartesian-matrix format (numpy, as with g3D), you can direct it to the neural network for inference.
 
 ### Bonus: Water column visualization
 
@@ -207,7 +204,7 @@ Then select "point cloud" to describe this data and then select ASCII parameters
 Then right-click on your point-cloud file and "Go-to" to visualize these detections.
 Here a visualization of our detections with the Water column 2D Viewer playing:
 
-![GIF_GLOBE_detection](IMG/SEANOE.gif)
+![GIF_GLOBE_detection](IMG/SEANOE_sans_multiping_leger.gif)
   *WC 2D player with fluid echoes on Water Column Images, center of boxes detected are in red*
 
 :star: For more details please refer to the following resources:
