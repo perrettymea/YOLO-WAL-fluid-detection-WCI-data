@@ -41,10 +41,11 @@ Weights of the neural networks are available on the following doi:
 
 ## How to install YOLOv5-WAL
 
-Here is how to install the environment. 
+Here is how to install the environment (assuming git is already a package in your anaconda distribution). 
 
 ```
 git clone https://github.com/perrettymea/YOLO-WAL-fluid-detection-WCI-data
+cd YOLO-WAL-fluid-detection-WCI-data
 cd requirements
 conda env create -f YOLOV5WAL.yml
 conda activate YOLOV5WAL
@@ -130,7 +131,7 @@ GLOBE can also help you to visualize your water column 2D data by selecting the 
 
 ## Inference with YOLOv5-WAL example
 
-Python code for inference can be run using the following line:
+Python code for inference can be run using the following line (models have to be downloaded from SENAO repository):
 
 ```
 python inference_on_G3D.py  --name_acquisition DEMO --confidence_threshold 0.3 --name_model GHASS2_Reson_Seabat.pt --dB_min 20 --dB_max 70
