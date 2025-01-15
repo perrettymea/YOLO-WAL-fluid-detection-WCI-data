@@ -26,7 +26,7 @@
   <table>
     <tr>
       <td>
-        <img src="IMG/LOGO/illustration_seanoe.JPG" alt="COUV" height="200">
+        <img src="IMG/LOGO/illustration_seanoe.JPG" alt="COUV">
       </td>
     </tr>
     <tr>
@@ -47,8 +47,7 @@ Models trained for fluid detection issued from several multibeam echosounders (
 
 
 
-## How to prepare multibeam data with GLOBE software (if necessary) for subsequent inference
-
+## How to install YOLOv5-WAL
 
 Here is how to install the environment (assuming git is already a package in your anaconda distribution). 
 
@@ -60,7 +59,7 @@ conda env create -f YOLOV5WAL.yml
 conda activate YOLOV5WAL
 ```
 
-## How to perform an inference on multi-beam data with GLOBE ![Icône](IMG/LOGO/IconeGlobe24.png)
+## How to prepare multibeam data with GLOBE software (if necessary) for subsequent inference
 
 Multibeam data are acquired in raw format (e.g, .all/.wcd, .kmall, .s7k datagrams). For inference with YOLOv5-WAL it is necessary to convert them to a Cartesian representation for each ping. This can be done using the GLOBE software. GLOBE (GLobal Oceanographic Bathymetry Explorer) is an innovative application for processing and displaying oceanographic data. GLOBE provides processing and display solutions for multi-sensor data (such as water column multibeam data). GLOBE can be downloaded [here](https://www.seanoe.org/data/00592/70460/) for Linux and Windows.
 
@@ -174,8 +173,7 @@ python inference_on_G3D.py  --name_acquisition DEMO --confidence_threshold 0.3 -
 * *dB_min*: Minimum dB value for data normalization (default: -50)
 * *dB_max*: Maximum dB value for data normalization (default: 10)
 
-dB_max will be clipped to these values. 
-You have to fix these limits in order to properly see fluid echoes as it will fix your colourbar. In the case of dB_min/dB_max values not adequately defined, the resulting inference will be of poor quality. This is due to the fact that the discrepancy between the features of the training and inference data will be too significant.
+*dB_min* and *dB_max* allow to normalize data for inference. Values below *dB_min* and above *dB_max* will be clipped to these values.  You have to fix these limits in order to properly see fluid echoes as it will fix your colourbar. In the case of *dB_min/dB_max* values not adequately defined, the resulting inference will be of poor quality. This is due to the fact that the discrepancy between the features of the training and inference data will be too significant.
 
 For more documentation YOLOv5 training see : [YOLOv5 documentation](https://github.com/ultralytics/yolov5)
 
@@ -251,8 +249,20 @@ Then select “point cloud” to describe this data and choose ASCII parameters.
 Then right-click on your point-cloud file and "Go-to" to visualize these detections.
 Here a visualization of fluid detections with the Water column 2D Viewer player:
 
-![GIF_GLOBE_detection](IMG/Seanoe_gif_review.gif)
-  *WC 2D player with fluid echoes on Water Column Images, centre of boxes detected are in red*
+<div align="center">
+  <table>
+    <tr>
+      <td>
+        <img src="IMG/Seanoe_gif_review.gif" alt="GIF_GLOBE_detection" >
+      </td>
+    </tr>
+    <tr>
+      <td align="center">
+        <em>WC 2D player with fluid echoes on Water Column Images, centre of boxes detected are in red</em>
+      </td>
+    </tr>
+  </table>
+</div>
 
 :star: For more details please refer to the following resources:
 * :newspaper: Frontiers article link (Rules for training set composition)
