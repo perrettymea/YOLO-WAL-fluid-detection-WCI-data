@@ -250,7 +250,7 @@ Here a visualization of fluid detections with the Water column 2D Viewer player:
   <table>
     <tr>
       <td>
-        <img src="IMG/Seanoe_review_SD3.gif" alt="GIF_GLOBE_detection" >
+        <img src="IMG/SEANOE_review_SD3.gif" alt="GIF_GLOBE_detection" >
       </td>
     </tr>
     <tr>
