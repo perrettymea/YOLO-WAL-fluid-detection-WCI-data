@@ -12,13 +12,13 @@
 
 - [*WAL*: Fluid emission detection- by *W*ater-column *A*coustics and deep *L*earning-approach](#wal-fluid-emission-detection--by-water-column-acoustics-and-deep-learning-approach)
   - [How to install YOLOv5-WAL](#how-to-install-yolov5-wal)
-  - [How to perform an inference on multi-beam data with GLOBE ](#how-to-perform-an-inference-on-multi-beam-data-with-globe-)
+  - [How to prepare multibeam data with GLOBE software (if necessary) for subsequent inference](#how-to-perform-an-inference-on-multi-beam-data-with-globe-)
     - [Manual method](#manual-method)
     - [Bonus: Water column visualization](#bonus-water-column-visualization)
-  - [Inference with YOLOv5-WAL example](#inference-with-yolov5-wal-example)
+  - [Inference with YOLOv5-WAL: an example](#inference-with-yolov5-wal-example)
     - [Parameters to be set for the inference](#parameters-to-be-set-for-the-inference)
     - [Results](#results)
-  - [Acknowlegdements](#acknowlegdements)
+  - [Acknowledgements](#acknowlegdements)
   - [Licence](#licence)
   - [Contact](#contact)
 
@@ -37,12 +37,10 @@
   </table>
 </div>
 
-YOLOv5-WAL is a YOLOv5-based deep learning supervised approach to automate the detection of fluids emitted from cold seeps (gaseous methane) and volcanic sites (liquid carbon dioxide). Several thousand annotated echograms collected from different seas and oceans during distinct surveys were used to train and test the deep learning model. The tests were conducted on a dataset comprising hundreds of thousands of echograms i) acquired with three different multibeam echosounders (Kongsberg EM302 and EM122 and Reson Seabat 7150) and ii) characterized by variable water column noise conditions related to sounder artefacts and the presence of biomass (fishes, dolphins).
-
-
+YOLOv5-WAL is a YOLOv5-based deep learning supervised approach to automate the detection of fluids emitted from the seafloor (e.g. methane bubbles from cold seeps and liquid carbon dioxide from volcanic sites). It concerns the detection of fluids in water column images (echograms) acquired with multibeam echosounders. Several thousand annotated echograms collected in different seas and oceans during distinct surveys were used to train and test the deep learning model. The tests were conducted on a dataset comprising hundreds of thousands of echograms i) acquired with three different multibeam echosounders (Kongsberg EM302 and EM122 and Reson Seabat 7150) and ii) characterized by variable water-column noise conditions related to sounder artefacts and the presence of biomass (e.g. fishes, dolphins)
 This repository contains the code for inference with YOLOv5. 
 
-Models trained for fluid detection issued from several multibeam echosounders (Kongsberg EM122, EM302, Reson Seabat 7150) can be found here. This fluid detector was already used for near-real time acquisition detection during the MAYOBS23 (EM122 – 2022; Perret et al. 2023) and HAITI-TWIST (Seabat Reson 7150 - 2024) cruises.
+Models trained for fluid detection issued from several multibeam echosounders (Kongsberg EM122, EM302, Reson Seabat 7150) coud be downloaded from SEANOE repository. This fluid detector was already used for near-real time acquisition detection during the MAYOBS23 (EM122 – 2022; Perret et al. 2023) and HAITI-TWIST (Seabat Reson 7150 - 2024) cruises.
 
 
 
@@ -173,8 +171,7 @@ python inference_on_G3D.py  --name_acquisition DEMO --confidence_threshold 0.3 -
 * *dB_min*: Minimum dB value for data normalization (default: -50)
 * *dB_max*: Maximum dB value for data normalization (default: 10)
 
-*dB_min* and *dB_max* allow to normalize data for inference. Values below *dB_min* and above *dB_max* will be clipped to these values.  You have to fix these limits in order to properly see fluid echoes as it will fix your colourbar. In the case of *dB_min/dB_max* values not adequately defined, the resulting inference will be of poor quality. This is due to the fact that the discrepancy between the features of the training and inference data will be too significant.
-
+*dB_min* and *dB_max* allow to normalize data for inference. Values below *dB_min* and above *dB_max* will be clipped to these values.  You have to fix these limits in order to properly see fluid echoes as it will fix your colour bar. In the case of *dB_min/dB_max* values not adequately defined, the resulting inference will be of poor quality. This is due to the fact that the discrepancy between the features of the training and inference data will be too significant.
 For more documentation YOLOv5 training see : [YOLOv5 documentation](https://github.com/ultralytics/yolov5)
 
 
@@ -253,7 +250,7 @@ Here a visualization of fluid detections with the Water column 2D Viewer player:
   <table>
     <tr>
       <td>
-        <img src="IMG/Seanoe_gif_review.gif" alt="GIF_GLOBE_detection" >
+        <img src="IMG/Seanoe_review_SD3.gif" alt="GIF_GLOBE_detection" >
       </td>
     </tr>
     <tr>
