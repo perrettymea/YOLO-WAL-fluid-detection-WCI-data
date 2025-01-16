@@ -26,7 +26,7 @@
   <table>
     <tr>
       <td>
-        <img src="IMG/LOGO/illustration_seanoe.JPG" alt="COUV">
+        <img src="IMG/LOGO/bandeau_seanoe.jpg" alt="COUV">
       </td>
     </tr>
     <tr>
