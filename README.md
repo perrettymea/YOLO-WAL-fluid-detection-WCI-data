@@ -1,4 +1,4 @@
-# *WAL*: Fluid emission detection- by *W*ater-column *A*coustics and deep *L*earning-approach
+# *WAL*: Fluid emission detection by *W*ater-column *A*coustics and deep *L*earning-approach
 
 <div align="center">
 <table>
@@ -10,7 +10,7 @@
 </table>
 </div>
 
-- [*WAL*: Fluid emission detection- by *W*ater-column *A*coustics and deep *L*earning-approach](#wal-fluid-emission-detection--by-water-column-acoustics-and-deep-learning-approach)
+- [*WAL*: Fluid emission detection by *W*ater-column *A*coustics and deep *L*earning-approach](#wal-fluid-emission-detection--by-water-column-acoustics-and-deep-learning-approach)
   - [How to install YOLOv5-WAL](#how-to-install-yolov5-wal)
   - [How to prepare multibeam data with GLOBE software (if necessary) for subsequent inference](#how-to-perform-an-inference-on-multi-beam-data-with-globe-)
     - [Manual method](#manual-method)
@@ -172,7 +172,7 @@ python inference_on_G3D.py  --name_acquisition DEMO --confidence_threshold 0.3 -
 * *dB_max*: Maximum dB value for data normalization (default: 10)
 
 *dB_min* and *dB_max* allow to normalize data for inference. Values below *dB_min* and above *dB_max* will be clipped to these values.  You have to fix these limits in order to properly see fluid echoes as it will fix your colour bar. In the case of *dB_min/dB_max* values not adequately defined, the resulting inference will be of poor quality. This is due to the fact that the discrepancy between the features of the training and inference data will be too significant.
-For more documentation YOLOv5 training see : [YOLOv5 documentation](https://github.com/ultralytics/yolov5)
+For more documentation YOLOv5 training see: [YOLOv5 documentation](https://github.com/ultralytics/yolov5)
 
 
 ### Results
@@ -270,10 +270,8 @@ Here a visualization of fluid detections with the Water column 2D Viewer player:
 ## Acknowledgements
 
 The GAZCOGNE1 and PAMELA-MOZ01 marine expeditions were part of the PAMELA project and were co-funded by TotalEnergies and IFREMER for the exploration of continental margins. The GHASS2 marine expedition was co-funded by the Agence Nationale de la Recherche for the BLAck sea MEthane (BLAME) project and IFREMER. MAYOBS23 was conducted by several French research institutions and laboratories, namely IPGP, CNRS, BRGM, and IFREMER. The project was funded by the Mayotte volcanological and seismological monitoring network (REVOSIMA), a partnership between IPGP, BRGM, OVPF-IPGP, CNRS, and IFREMER. This study is part of a PhD project funded by IFREMER and the Brittany region through an ARED grant. 
-
 ## Licence
 
-This repository is under AGPL-3.0 as YOLOv5 from [Ultralytics](https://github.com/ultralytics/yolov5). This OSI-approved open-source license is ideal for students and enthusiasts, promoting open collaboration and knowledge sharing. See the LICENSE file for more details.
-
+This repository is under AGPL-3.0 as YOLOv5 from [Ultralytics](https://github.com/ultralytics/yolov5). This OSI-approved open-source licence is ideal for students and enthusiasts, promoting open collaboration and knowledge sharing. See the licence file for more details.
 ## Contact
 :mailbox_with_no_mail: For questions or support, please contact tymea.perret@ifremer.fr.
