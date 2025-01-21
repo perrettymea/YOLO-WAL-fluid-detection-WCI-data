@@ -24,7 +24,7 @@ authors:
 date-released: 2025-01-21
 version: "1.0.1"
 doi: "10.5281/zenodo.14712211" 
-url: "https://github.com/username/repository-name"
+url: "https://github.com/perrettymea/YOLO-WAL-fluid-detection-WCI-data"
 repository-code: "https://github.com/perrettymea/YOLO-WAL-fluid-detection-WCI-data"
 keywords:
   - "Multibeam echosounder"
