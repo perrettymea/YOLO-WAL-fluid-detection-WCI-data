@@ -40,7 +40,7 @@
 YOLOv5-WAL is a YOLOv5-based deep learning supervised approach to automate the detection of fluids emitted from the seafloor (e.g. methane bubbles from cold seeps and liquid carbon dioxide from volcanic sites). It concerns the detection of fluids in water column images (echograms) acquired with multibeam echosounders. Several thousand annotated echograms collected in different seas and oceans during distinct surveys were used to train and test the deep learning model. The tests were conducted on a dataset comprising hundreds of thousands of echograms i) acquired with three different multibeam echosounders (Kongsberg EM302 and EM122 and Reson Seabat 7150) and ii) characterized by variable water-column noise conditions related to sounder artefacts and the presence of biomass (e.g. fishes, dolphins)
 This repository contains the code for inference with YOLOv5. 
 
-Models trained for fluid detection issued from several multibeam echosounders (Kongsberg EM122, EM302, Reson Seabat 7150) coud be downloaded from SEANOE repository. This fluid detector was already used for near-real time acquisition detection during the MAYOBS23 (EM122 – 2022; Perret et al. 2023) and HAITI-TWIST (Seabat Reson 7150 - 2024) cruises.
+Models trained for fluid detection issued from several multibeam echosounders (Kongsberg EM122, EM302, Reson Seabat 7150) coud be downloaded from [SEANOE repository](https://www.seanoe.org/data/00923/103478/). This fluid detector was already used for near-real time acquisition detection during the MAYOBS23 (EM122 – 2022; Perret et al. 2023) and HAITI-TWIST (Seabat Reson 7150 - 2024) cruises.
 
 
 
@@ -152,7 +152,7 @@ GLOBE can also help you to visualize 2D water column data ping per ping by selec
 
 ## Inference with YOLOv5-WAL: an example
 
-Python code for inference can be run using the following line (models have to be downloaded from SENAO repository):
+Python code for inference can be run using the following line (models could be downloaded from [SEANOE repository](https://www.seanoe.org/data/00923/103478/):
 
 ```
 python inference_on_G3D.py  --name_acquisition DEMO --confidence_threshold 0.3 --name_model GHASS2_Reson_Seabat.pt --dB_min 20 --dB_max 70
