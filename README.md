@@ -278,7 +278,7 @@ This repository is under AGPL-3.0 as YOLOv5 from [Ultralytics](https://github.co
 ## Citation  
 If you use this work, include [SEANOE repository](https://www.seanoe.org/data/00923/103478/) and other relevant citations and please cite it as:  
 
-**Perret, T., Le Chenadec, G., Gaillot, A., Ladroit, Y., & Dupré, S.** (2025). WAL: Fluid emission detection by Water-column Acoustics and deep Learning approach (v1.0.2). Zenodo. doi: [10.5281/zenodo.14712210](https://doi.org/10.5281/zenodo.14712210)
+**Perret, T., Le Chenadec, G., Gaillot, A., Ladroit, Y., Dupré, S.** (2025). WAL: Fluid emission detection by Water-column Acoustics and deep Learning approach (v1.0.2). Zenodo. doi: [10.5281/zenodo.14712210](https://doi.org/10.5281/zenodo.14712210)
 
 
 ## Contact
