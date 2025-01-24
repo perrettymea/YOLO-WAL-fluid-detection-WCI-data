@@ -276,7 +276,7 @@ The GAZCOGNE1 and PAMELA-MOZ01 marine expeditions were part of the PAMELA projec
 This repository is under AGPL-3.0 as YOLOv5 from [Ultralytics](https://github.com/ultralytics/yolov5). This OSI-approved open-source licence is ideal for students and enthusiasts, promoting open collaboration and knowledge sharing. See the licence file for more details.
 
 ## Citation  
-If you use this work, include [SEANOE repository](https://www.seanoe.org/data/00923/103478/) and other relevant citations, please cite it as:  
+If you use this work, include [SEANOE repository](https://www.seanoe.org/data/00923/103478/) and other relevant citations and please cite it as:  
 
 **Perret, T., Le Chenadec, G., Gaillot, A., Ladroit, Y., & Dupré, S.** (2025). WAL: Fluid emission detection by Water-column Acoustics and deep Learning approach (v1.0.2). Zenodo. doi: [10.5281/zenodo.14712210](https://doi.org/10.5281/zenodo.14712210)
 
