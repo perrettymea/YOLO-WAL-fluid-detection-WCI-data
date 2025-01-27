@@ -1,4 +1,4 @@
-# *WAL*: Fluid emission detection by *W*ater-column *A*coustics and deep *L*earning-approach
+# *WAL*: Fluid emission detection by *W*ater-column *A*coustics and deep-*L*earning-approach
 
 <div align="center">
 <table>
@@ -10,11 +10,11 @@
 </table>
 </div>
 
-- [*WAL*: Fluid emission detection by *W*ater-column *A*coustics and deep *L*earning-approach](#wal-fluid-emission-detection--by-water-column-acoustics-and-deep-learning-approach)
+- [*WAL*: Fluid emission detection by *W*ater-column *A*coustics and deep-*L*earning-approach](#wal-fluid-emission-detection--by-water-column-acoustics-and-deep-learning-approach)
   - [How to install YOLOv5-WAL](#how-to-install-yolov5-wal)
   - [How to prepare multibeam data with GLOBE software (if necessary) for subsequent inference](#how-to-perform-an-inference-on-multi-beam-data-with-globe-)
     - [Manual method](#manual-method)
-    - [Bonus: Water column visualization](#bonus-water-column-visualization)
+    - [Bonus: Water-column visualization](#bonus-water-column-visualization)
   - [Inference with YOLOv5-WAL: an example](#inference-with-yolov5-wal-example)
     - [Parameters to be set for the inference](#parameters-to-be-set-for-the-inference)
     - [Results](#results)
@@ -38,10 +38,10 @@
   </table>
 </div>
 
-YOLOv5-WAL is a YOLOv5-based deep learning supervised approach to automate the detection of fluids emitted from the seafloor (e.g. methane bubbles from cold seeps and liquid carbon dioxide from volcanic sites). It concerns the detection of fluids in water column images (echograms) acquired with multibeam echosounders. Several thousand annotated echograms collected in different seas and oceans during distinct surveys were used to train and test the deep learning model. The tests were conducted on a dataset comprising hundreds of thousands of echograms i) acquired with three different multibeam echosounders (Kongsberg EM302 and EM122 and Reson Seabat 7150) and ii) characterized by variable water-column noise conditions related to sounder artefacts and the presence of biomass (e.g. fishes, dolphins)
+YOLOv5-WAL is a YOLOv5-based deep learning supervised approach to automate the detection of fluids emitted from the seafloor (e.g. methane bubbles from cold seeps and liquid carbon dioxide from volcanic sites). It concerns the detection of fluids in water column images (echograms) acquired with multibeam echosounders. Several thousand annotated echograms from different seas and oceans and acquired during distinct surveys were used to train and test the deep-learning model. The tests were conducted on a dataset comprising hundreds of thousands of echograms i) acquired with three different multibeam echosounders (Kongsberg EM302 and EM122 and Reson Seabat 7150) and ii) characterized by varied water-column noise conditions related to sounder artefacts and the presence of biomass (e.g. fish, dolphins).
 This repository contains the code for inference with YOLOv5. 
 
-Models trained for fluid detection issued from several multibeam echosounders (Kongsberg EM122, EM302, Reson Seabat 7150) coud be downloaded from [SEANOE repository](https://www.seanoe.org/data/00923/103478/). This fluid detector was already used for near-real time acquisition detection during the MAYOBS23 (EM122 – 2022; Perret et al. 2023) and HAITI-TWIST (Seabat Reson 7150 - 2024) cruises.
+Models trained for fluid detection issued from several multibeam echosounders (Kongsberg EM122, EM302, Reson Seabat 7150) could be downloaded from [SEANOE repository](https://www.seanoe.org/data/00923/103478/). This fluid detector was already used for near-real time acquisition detection during the MAYOBS23 (EM122 – 2022; Perret et al. 2023) and HAITI-TWIST (Seabat Reson 7150 - 2024) cruises.
 
 
 
@@ -69,7 +69,7 @@ Converting the raw file into a g3D file:
 
 * Load your raw file by clicking on: Data :arrow_forward: Import :arrow_forward:Load data file
 
-* Convert your raw file in XSF (following the SONAR-netcf4 convention for sonar data). Select **xsf** output format and where you want to save this new file. 
+* Convert your raw file into XSF (following the SONAR-netcf4 convention for sonar data). Select **xsf** output format and where you want to save this new file. 
 
 <div align="center">
   <table>
@@ -88,7 +88,7 @@ Converting the raw file into a g3D file:
 
 
 
-* Convert the XSF file in G3D netcdf format (WC Polar Echograms) to obtain a cartesian representation
+* Convert the XSF file into G3D netcdf format (WC Polar Echograms) to obtain a cartesian representation
 
 
 <div align="center">
@@ -112,7 +112,7 @@ It is possible to configure:
 * Subsampling
 * Layers you want to export: backscatter (mean, max). We do not advise to consider *bacscatter_comp* layers for this fluid detection case.
   
-:heavy_check_mark: This G3D contains the following informations that you can access:
+:heavy_check_mark: This G3D contains the following information that you can access:
 
 
 ```
@@ -145,9 +145,9 @@ Groups:
 This manual method must be used for all raw files before inference. 
 
 
-:arrow_forward:If you have another software/code than Globe that can extract pings from the water column and represent it as a 2D-cartesian-matrix format (numpy, as with g3D), you can direct it to the neural network for inference.
+:arrow_forward:If you have software/code other than Globe that can extract pings from the water column and represent it as a 2D-cartesian-matrix format (numpy, as with g3D), you can direct it to the neural network for inference.
 
-### Bonus: Water column visualization
+### Bonus: Water-column visualization
 
 GLOBE can also help you to visualize 2D water column data ping per ping by selecting the **xsf** file :arrow_forward: Open with :arrow_forward: Water Column 2D viewer. 
 
@@ -168,12 +168,12 @@ python inference_on_G3D.py  --name_acquisition DEMO --confidence_threshold 0.3 -
 * *name_acquisition*: Name of the inference experiment (default: 'TEST_INFERENCE')
 * *name_model*: Name of the model file to use, including .pt extension (default: 'training_test_with_G3D.pt')
 * *confidence_threshold*: Threshold for discriminating detections (default: 0.3)
-* *size_img*: Size to resize images before inference, has to be a multiple of 32 as detailed in YOLOv5 documentation (will be automatically resized if not) (default: 960)
+* *size_img*: Size to resize images before inference, must be a multiple of 32 as detailed in YOLOv5 documentation (automatically resized if not) (default: 960)
 * *dB_min*: Minimum dB value for data normalization (default: -50)
 * *dB_max*: Maximum dB value for data normalization (default: 10)
 
-*dB_min* and *dB_max* allow to normalize data for inference. Values below *dB_min* and above *dB_max* will be clipped to these values.  You have to fix these limits in order to properly see fluid echoes as it will fix your colour bar. In the case of *dB_min/dB_max* values not adequately defined, the resulting inference will be of poor quality. This is due to the fact that the discrepancy between the features of the training and inference data will be too significant.
-For more documentation YOLOv5 training see: [YOLOv5 documentation](https://github.com/ultralytics/yolov5)
+*dB_min* and *dB_max* allow to normalize data for inference. Values below *dB_min* and above *dB_max* will be clipped to these values.  You must fix these limits to properly see fluid echoes as it will fix your colour bar. In the case of inadequately defined *dB_min/dB_max* values, the resulting inference will be of poor quality. This is due to an excessive discrepancy between the features of the training and inference data.
+For more YOLOv5 training documentation see: [YOLOv5 documentation](https://github.com/ultralytics/yolov5)
 
 
 ### Results
@@ -194,7 +194,7 @@ For more documentation YOLOv5 training see: [YOLOv5 documentation](https://githu
 </div>
 
 (Here *db_min* and *dB_max* are very high, due to a Reson Seabat 7150 specificity, for a Kongsberg multibeam -60 (*db_min*) to -10 (*db_max*) could be appropriate values).
-Two folders are created, one with the images for which the detections are made and another one with the coordinates of the detections, with a subfolder per G3D file.
+Two folders are created, one with the images for detections are made and the other with the coordinates of the detections, with a subfolder per G3D file.
 
 <div align="center">
   <table>
@@ -212,7 +212,7 @@ Two folders are created, one with the images for which the detections are made a
 </div>
 
 
-The coordinates of the detections correspond to the mid-point of the detection box and can be used for visualisation for instance in a Geographic Information System. The following parameters are recorded for each detection:
+The coordinates of the detections correspond to the mid-point of the detection box and can be used for visualization for instance in a Geographic Information System. The following parameters are recorded for each detection:
 
 
 | **Parameter**                     | **Description**                                          |
@@ -228,7 +228,7 @@ The coordinates of the detections correspond to the mid-point of the detection b
 
 
 This file (in *coord_detections_center folder*) can be loaded for instance in GLOBE using data > Import > Load data file. 
-Then select “point cloud” to describe this data and choose ASCII parameters.
+Then select “point cloud” to describe this data and select ASCII parameters.
 <div align="center">
   <table>
     <tr>
