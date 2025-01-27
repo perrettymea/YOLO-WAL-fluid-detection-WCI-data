@@ -219,7 +219,7 @@ The coordinates of the detections correspond to the mid-point of the detection b
 |-----------------------------------|---------------------------------------------------------|
 | **Longitude (WGS84)**             | Longitude of the detected object (centre of the box).                       |
 | **Latitude (WGS84)**                      | Latitude of the detected object (centre of the box).                        |
-| **Average Depth**               | Average water depth calculated as \((h_{\text{min box}} + h_{\text{max box}}) / 2\). |
+| **Average Depth**               | Average water depth calculated as $\frac{(h_{\text{min box}} + h_{\text{max box}})}{2}$ |
 | **File Name**                    | Name of the file where the detection occurred.         |
 | **Ping**                         | The specific ping number associated with the detection. |
 | **Box Coordinates**              | Coordinates of the bounding box in the image (in pixels).          |
