@@ -194,7 +194,7 @@ For more YOLOv5 training documentation see: [YOLOv5 documentation](https://githu
 </div>
 
 (Here *db_min* and *dB_max* are very high, due to a Reson Seabat 7150 specificity, for a Kongsberg multibeam -60 (*db_min*) to -10 (*db_max*) could be appropriate values).
-Two folders are created, one with the images for detections are made and the other with the coordinates of the detections, with a subfolder per G3D file.
+Two folders are created, one with the images for detections and the other with the coordinates of the detections, with a subfolder per G3D file.
 
 <div align="center">
   <table>
