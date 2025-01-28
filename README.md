@@ -1,4 +1,4 @@
-# *WAL*: Fluid emission detection by *W*ater-column *A*coustics and deep-*L*earning-approach
+# *YOLO-WAL*: Fluid-emission detection by *W*ater-column *A*coustics and a deep-*L*earning-approach
 
 <div align="center">
 <table>
@@ -10,7 +10,7 @@
 </table>
 </div>
 
-- [*WAL*: Fluid emission detection by *W*ater-column *A*coustics and deep-*L*earning-approach](#wal-fluid-emission-detection--by-water-column-acoustics-and-deep-learning-approach)
+- [*YOLO-WAL*: Fluid-emission detection by *W*ater-column *A*coustics and a deep-*L*earning-approach](#wal-fluid-emission-detection--by-water-column-acoustics-and-deep-learning-approach)
   - [How to install YOLOv5-WAL](#how-to-install-yolov5-wal)
   - [How to prepare multibeam data with GLOBE software (if necessary) for subsequent inference](#how-to-perform-an-inference-on-multi-beam-data-with-globe-)
     - [Manual method](#manual-method)
@@ -278,7 +278,7 @@ This repository is under AGPL-3.0 as YOLOv5 from [Ultralytics](https://github.co
 ## Citation  
 If you use this work, include [SEANOE repository](https://www.seanoe.org/data/00923/103478/) and other relevant citations and please cite it as:  
 
-**Perret, T., Le Chenadec, G., Gaillot, A., Ladroit, Y., Dupré, S.** (2025). WAL: Fluid emission detection by Water-column Acoustics and deep Learning approach (v1.0.2). Zenodo. doi: [10.5281/zenodo.14712210](https://doi.org/10.5281/zenodo.14712210)
+**Perret, T., Le Chenadec, G., Gaillot, A., Ladroit, Y., Dupré, S.** (2025). YOLO-WAL: Fluid-emission detection by Water-column Acoustics and a deep Learning approach (v1.0.2). Zenodo. doi: [10.5281/zenodo.14712210](https://doi.org/10.5281/zenodo.14712210)
 
 
 ## Contact
