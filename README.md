@@ -263,7 +263,7 @@ Here a visualization of fluid detections with the Water column 2D Viewer player:
 </div>
 
 :star: For more details please refer to the following resources:
-* :newspaper: Frontiers article link (Rules for training set composition)
+* :newspaper: [Deep-learning-based detection of underwater fluids in multiple multibeam echosounder data](https://www.frontiersin.org/journals/remote-sensing/articles/10.3389/frsen.2025.1532714/abstract) (Rules for training set composition)
 * :newspaper:[Knowledge transfer for deep-learning gas-bubble detection in underwater acoustic water column data](https://www.ioa.org.uk/catalogue/paper/knowledge-transfer-deep-learning-gas-bubble-detection-underwater-acoustic-water)(How to train neural network without fluid echograms from the multibeam echosounder you use)
 * :computer: [YOLOv5 documentation](https://github.com/ultralytics/yolov5)
 * :computer:[GLOBE](https://www.seanoe.org/data/00592/70460/)
