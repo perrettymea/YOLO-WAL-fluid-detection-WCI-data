@@ -221,17 +221,32 @@ Two folders are created, one with the images for detections and the other with t
 
 The coordinates of the detections correspond to the mid-point of the detection box and can be used for visualization for instance in a Geographic Information System. The following parameters are recorded for each detection:
 
-
-| **Parameter**                     | **Description**                                          |
-|-----------------------------------|---------------------------------------------------------|
-| **Longitude (WGS84)**             | Longitude of the detected object (centre of the box).                       |
-| **Latitude (WGS84)**                      | Latitude of the detected object (centre of the box).                        |
-| **Average Depth**               | Average water depth calculated as $\frac{(h_{\text{min box}} + h_{\text{max box}})}{2}$ |
-| **File Name**                    | Name of the file where the detection occurred.         |
-| **Ping**                         | The specific ping number associated with the detection. |
-| **Box Coordinates**              | Coordinates of the bounding box in the image (in pixels).          |
-| **Confidence Index**             | Confidence score of the detection from the model.      |
-
+| # | **Parameter**   | **Description** | **Unit / Type** |
+|---|---------|-------------|---------------|
+| 1 | `lon_moy` | Longitude of the horizontal center of the detection box| decimal degrees |
+| 2 | `lat_moy` | Latitude of the horizontal center of the detection box | decimal degrees |
+| 3 | `hmoy` | Average water depth of the box (`(hmin + hmax) / 2`) | meters |
+| 4 | `hmin` | Water depth at the bottom of the box (calculated based on `ymax`) | meters |
+| 5 | `hmax` | Water depth at the top of the box (calculated based on `ymin`) | meters |
+| 6 | `Layer` | Layer/Acquisition Name (derived from the file name `.nc`) | str |
+| 7 | `ping` | Ping number (NetCDF group), 5 digits | integer (str, zero-padded) |
+| 8 | `width` | Actual width of the detection box | meters |
+| 9 | `height` | Actual height of the detection box(`\|hmin - hmax\|`) | meters |
+| 10 | `distance_to_nadir` | Distance from the center of the box to the nadir  | meters |
+| 11 | `reject_box_sidelobe` | `True` if the box is deemed to be under the Minimum Slant Range (heuristic based on the assumption of a flat bottom) | Boolean |
+| 12 | `range_max_before_msr` | Minimum Slant Range| meters |
+| 13 | `distance_image_edge` | Vertical distance between the top of the box and the edge of the WCI | meters |
+| 14 | `xmin` | Left edge of the box | pixels |
+| 15 | `xmax` | Rigth edge of the boxe | pixels |
+| 16 | `ymin` | Top edge of the box | pixels |
+| 17 | `ymax` | Bottom edge of the box | pixels |
+| 18 | `confidence` | Model confidence score for this detection | [0, 1] |
+| 19 | `mean_WC_value` | Average WC value in the box (averaged on natural scale, converted to dB) | dB |
+| 20 | `std_WC_value` | Standard deviation of WC value in the box | dB |
+| 21 | `Q1_WC_value` | 1st quartile (25th percentile) of WC value | dB |
+| 22 | `median_WC_value` | Median WC value | dB |
+| 23 | `Q3_WC_value` | 3rd quartile (75th percentile) of WC value | dB |
+| 24 | `percent_90_WC_value` | 90th percentile of WC value | dB |
 
 
 This file (in *coord_detections_center folder*) can be loaded for instance in GLOBE using data > Import > Load data file. 
