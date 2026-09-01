@@ -18,6 +18,13 @@
   - [Inference with YOLOv5-WAL: an example](#inference-with-yolov5-wal-example)
     - [Parameters to be set for the inference](#parameters-to-be-set-for-the-inference)
     - [Results](#results)
+  - [Training — YOLO-WAL Fluid Detection on WCI Data](#Training-—-YOLO-WAL-Fluid-Detection-on-WCI-Data)
+    - [Environment Setup](#Environment-Setup)
+    - [Install Comet ML for monitoring](#Install-Comet-ML-for-monitoring-(recommended-but-not-mandatory))
+    - [Training dataset(s)](#Training-dataset(s))
+    - [Running Training](#Running-Training)
+  - [Share Your Weights with the Community](#Share-Your-Weights-with-the-Community)
+  - [Troubleshooting (not exhaustive)](#Troubleshooting)
   - [Acknowledgements](#acknowlegdements)
   - [Licence](#licence)
   - [Citation](#citation)
@@ -399,7 +406,7 @@ names: ['fluid']                   # Class names — adjust to your labels
 
 ---
 
-## Hyperparameters
+### Hyperparameters
 
 A base hyperparameter file `hyp_MIXTE.yaml` is provided at the root of this repo.  
 It is tuned for WCIs (Frontiers article) but you can retuned it on your proper dataset.
@@ -445,7 +452,7 @@ train_sonar.py is adapted for a one-channel image (the input image is duplicated
 
 ---
 
-## Monitoring with Comet ML
+### Monitoring with Comet ML
 
 Once training starts, open your [Comet dashboard](https://www.comet.com) to track:
 
@@ -490,14 +497,15 @@ If you train a model on your own WCI dataset and obtain good results, **please c
 
 ---
 
-## Troubleshooting (not exhaustive) 
+## Troubleshooting
 
-See Ultralytics YOLO repository for additional help.
 
 **CUDA out of memory** → Reduce `--batch` size, or use a smaller model (`yolov5s.pt`).  
 **No detections** → Check that label files exist and are non-empty. Verify `dataset.yaml` paths. Did you used too much WCIs without fluids? How are training loss curves?   
 **Comet not logging** → Ensure `comet_ml` is imported before `torch` in your environment, or run `comet login` again.  
 **Slow training** → Enable `--cache` or increase `--workers`. (Use a/several GPU-s)
+
+See Ultralytics YOLO repository for additional help.
 
 :star: For more details please refer to the following resources:
 * :newspaper: [Deep-learning-based detection of underwater fluids in multiple multibeam echosounder data](https://www.frontiersin.org/journals/remote-sensing/articles/10.3389/frsen.2025.1532714/abstract) (Rules for training set composition)
