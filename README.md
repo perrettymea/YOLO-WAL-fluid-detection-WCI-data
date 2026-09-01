@@ -262,6 +262,243 @@ Here a visualization of fluid detections with the Water column 2D Viewer player:
   </table>
 </div>
 
+
+
+# Training — YOLO-WAL Fluid Detection on WCI Data
+
+This section explains how to set up the training environment, structure your dataset, configure hyperparameters, monitor training with Comet ML, and share your weights with the community.
+
+---
+
+## Environment Setup
+
+This workflow uses **YOLOv5 (2022 release)** from Ultralytics. YOLOv5 is alredy present in this repository. We recommend using a dedicated conda environment compatbible with GPU for the training (refers to Ultralytics YOLOv5 repository).
+
+
+> **GPU users**: make sure PyTorch is installed with CUDA support matching your driver version.  
+> Check: [https://pytorch.org/get-started/locally/](https://pytorch.org/get-started/locally/)
+
+
+### Install Comet ML for monitoring (recommended but not mandatory)
+
+```bash
+pip install comet_ml
+```
+
+Set your Comet credentials:
+
+```bash
+export COMET_API_KEY="your_api_key_here"
+export COMET_PROJECT_NAME="yolo-wal-wci"
+export COMET_WORKSPACE="your_workspace"
+```
+
+> You can also place these in a `.env` file or in `~/.comet.config`.  
+> Create a free account at [https://www.comet.com](https://www.comet.com).
+
+---
+
+## Training dataset(s)
+
+Download the training data from the link provided here (SEANOE) and organize your folder as follows:
+
+```
+dataset/
+├── train/
+│   ├── images/          # Training images (.png or .jpg)
+│   ├── labels/          # YOLO-format annotation files (.txt)
+└── validation/
+    ├── images/          
+    ├── labels/
+```
+
+This training data contains WCIs from different MBES (full description in SEANOE). You can add your proper WCIs by extracting images from your G3D (see higher how to converted your MBES watercolumn data in a G3D). Here is an exemple of a code you can use in this objective (colorbar and dB limits can be changed depending on your data).
+
+
+```bash
+import os
+import shutil
+import netCDF4 as nc
+import numpy as np
+import cv2
+
+
+g3D_path = "your_g3d_path"
+where2save_img = "where_to_save_your_images"
+for nc_file_path in sorted(os.listdir(g3D_path)):
+   nc_file = nc.Dataset(os.path.join(g3D_path, nc_file_path))
+   name_line = nc_file_path.split(".")[0]
+   for ping_g3D in nc_file.groups.keys():
+      # Access the group in the NetCDF file
+      group = nc_file.groups[ping_g3D]
+      # Accessing specific variable
+      variable_name = 'backscatter_mean'
+      variable = group.variables[variable_name]
+      # Retrieve the values of the variable
+      valeurs_variable = variable[:]
+      print(valeurs_variable.shape)
+      if valeurs_variable.shape[0] > 0:
+            valeurs_variable = np.flipud(valeurs_variable)
+            # normalisation step: scale dB to 0.1
+            # TODO: Choose thresholds to adjust the saturation of your water column images
+            val_min = -50
+            val_max = 20
+            nan_mask = np.isnan(valeurs_variable)
+
+            # Temporarily replace NaNs with a value outside the range for normalisation
+            valeurs_variable_temp = np.nan_to_num(valeurs_variable, nan=val_min - 1)
+
+            # Backscatter normalisation
+            valeurs_variable_normalized = (valeurs_variable - val_min) / (val_max - val_min) * 255
+            valeurs_variable_normalized = np.clip(valeurs_variable_normalized, 0, 255).astype(np.uint8)
+
+            # TODO: Apply the jet colour scheme or any other scheme you deem appropriate to the input of your network
+            #valeurs_variable_colormap = cv2.applyColorMap(valeurs_variable_normalized, cv2.COLORMAP_JET) #if in jet
+            valeurs_variable_colormap = cv2.merge([valeurs_variable_normalized, valeurs_variable_normalized, valeurs_variable_normalized]) #if in grey level 
+            valeurs_variable_colormap[nan_mask] = [255, 255, 255]
+
+            if not os.path.exists(os.path.join(where2save_img, name_line)):
+               os.makedirs(os.path.join(where2save_img, name_line))
+            cv2.imwrite(os.path.join(where2save_img, os.path.join(name_line, name_line + ping_g3D + ".png")),
+                        valeurs_variable_colormap)
+
+```
+
+To label your new images dataset (if relevant):  https://pypi.org/project/labelImg/ 
+
+### Label format (YOLO `.txt`)
+
+Each image has a corresponding `.txt` file with one detection per line:
+
+```
+<class_id> <x_center> <y_center> <width> <height>
+```
+
+All values are **normalized** between 0 and 1 relative to image dimensions.
+
+**Example** — a single fluid plume annotation:
+
+```
+0 0.512 0.374 0.083 0.142
+```
+
+### Dataset YAML configuration
+
+Create a file `your_dataset.yaml` at the root of this repo:
+
+```yaml
+path: /absolute/path/to/dataset   # Root directory of the dataset
+train: train/images
+val: validation/images
+
+nc: 1                              # Number of classes
+names: ['fluid']                   # Class names — adjust to your labels
+```
+
+> Use **absolute paths** to avoid errors when running training from inside the YOLOv5 directory.
+
+---
+
+## Hyperparameters
+
+A base hyperparameter file `hyp_MIXTE.yaml` is provided at the root of this repo.  
+It is tuned for WCIs (Frontiers article) but you can retuned it on your proper dataset.
+
+---
+
+## Running Training
+
+From inside the `yolov5/` directory:
+
+```bash
+python train_sonar.py \
+  --img 640 \ #we took an average value for our dataset
+  --batch 16 \
+  --epochs 50 \
+  --data /path/to/YOLO-WAL-fluid-detection-WCI-data/dataset.yaml \
+  --weights yolov5s.pt \
+  --hyp /path/to/YOLO-WAL-fluid-detection-WCI-data/hyp.yaml \
+  --project /path/to/YOLO-WAL-fluid-detection-WCI-data/runs/train \
+  --name exp \
+  --cache \
+  --workers 1
+```
+
+train_sonar.py is adapted for a one-channel image (the input image is duplicated for input in the 3-channel architecture). 
+
+### Key argument descriptions
+
+| Argument | Description |
+|----------|-------------|
+| `--img` | Input image size (pixels). (depends on your dataset resolution)
+| `--batch` | Batch size. Reduce if you run out of GPU memory. |
+| `--epochs` | Number of training epochs. |
+| `--data` | Path to your `your_dataset.yaml`. |
+| `--weights` | Pretrained weights to start from. Use `yolov5s.pt`. |
+| `--hyp` | Path to hyperparameter YAML file. |
+| `--project` | Directory where runs are saved. |
+| `--name` | Subdirectory name for this run. |
+| `--cache` | Cache images in RAM for faster training (requires sufficient memory). |
+| `--workers` | Number of dataloader workers. |
+
+> **Comet ML** is automatically detected by YOLOv5 if `comet_ml` is installed and your API key is set. No additional flag needed — training metrics, confusion matrices, and predictions will be logged automatically.
+
+---
+
+## Monitoring with Comet ML
+
+Once training starts, open your [Comet dashboard](https://www.comet.com) to track:
+
+- Loss curves (box loss, objectness loss, classification loss)
+- Precision / Recall / mAP over epochs
+- Confusion matrix
+- Sample predictions on validation images
+- GPU usage and system metrics
+
+Each run is logged as a separate experiment, making it easy to compare hyperparameter configurations.
+
+---
+
+## Share Your Weights with the Community
+
+If you train a model on your own WCI dataset and obtain good results, **please consider sharing your weights** so that others can benefit from your work!
+
+### How to contribute your weights
+
+1. **Export your best weights** — they are saved automatically in:
+   ```
+   runs/train/<exp_name>/weights/best.pt
+   ```
+
+2. **Open a GitHub Issue** in this repository titled:  
+   `[Weights] <Your model description>`  
+   and include:
+   - The fluid emissions detected
+   - Geographic area and MBES used
+   - Your model metrics (mAP@0.5, precision, recall or anything you find relevant)
+   - A download link (Zenodo, Google Drive, etc.)
+
+3. Your model will be listed in the **[Community Weights](#community-weights)** table below.
+
+### Community Weights
+
+| Contributor | Classes | MBES | Metrics | Weights |
+|-------------|---------|------------|---------|---------|
+| *(your name here)* | fluid | Kongsberg EMXXX | — | — |
+
+> We recommend hosting weights on **[Zenodo](https://zenodo.org)** (free, DOI-citable) or **[HuggingFace Hub](https://huggingface.co)** for long-term availability.
+
+---
+
+## Troubleshooting (not exhaustive) 
+
+See Ultralytics YOLO repository for additional help.
+
+**CUDA out of memory** → Reduce `--batch` size, or use a smaller model (`yolov5s.pt`).  
+**No detections** → Check that label files exist and are non-empty. Verify `dataset.yaml` paths. Did you used too much WCIs without fluids? How are training loss curves?   
+**Comet not logging** → Ensure `comet_ml` is imported before `torch` in your environment, or run `comet login` again.  
+**Slow training** → Enable `--cache` or increase `--workers`. (Use a/several GPU-s)
+
 :star: For more details please refer to the following resources:
 * :newspaper: [Deep-learning-based detection of underwater fluids in multiple multibeam echosounder data](https://www.frontiersin.org/journals/remote-sensing/articles/10.3389/frsen.2025.1532714/abstract) (Rules for training set composition)
 * :newspaper:[Knowledge transfer for deep-learning gas-bubble detection in underwater acoustic water column data](https://archimer.ifremer.fr/doc/00904/101553/)(How to train neural network without fluid echograms from the multibeam echosounder you use)
