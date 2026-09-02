@@ -535,7 +535,7 @@ If you train a model on your own WCI dataset and obtain good results, **please c
 
 ## Troubleshooting
 
-
+**GPU not detected / training runs on CPU:** `torch.cuda.is_available()` returning `False` usually means pip resolved a CPU-only build of PyTorch instead of the CUDA one — always install torch with an explicit `--index-url` (e.g. `cu118`) matching your NVIDIA driver, and verify with `python -c "import torch; print(torch.cuda.is_available())"` right after activating the environment.
 **CUDA out of memory** → Reduce `--batch` size, or use a smaller model (`yolov5s.pt`).  
 **No detections** → Check that label files exist and are non-empty. Verify `dataset.yaml` paths. Did you used too much WCIs without fluids? How are training loss curves?   
 **Comet not logging** → Ensure `comet_ml` is imported before `torch` in your environment, or run `comet login` again.  
