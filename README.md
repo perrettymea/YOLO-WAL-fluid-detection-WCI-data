@@ -14,7 +14,7 @@
   - [How to install YOLOv5-WAL](#how-to-install-yolov5-wal)
   - [How to prepare multibeam data with GLOBE software (if necessary) for subsequent inference](#how-to-perform-an-inference-on-multi-beam-data-with-globe-)
   - [Inference with YOLOv5-WAL: an example](#inference-with-yolov5-wal-example)
-  - [Visualization of detection in GLOBE](#Visualization of detections in GLOBE)
+  - [Visualization of detection in GLOBE](#Visualization-of-detections-in-GLOBE)
   - [Training — YOLO-WAL Fluid Detection on WCI Data](#Training-—-YOLO-WAL-Fluid-Detection-on-WCI-Data)
     - [Training dataset(s)](#Training-dataset(s))
     - [Running Training](#Running-Training)
