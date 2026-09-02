@@ -519,7 +519,7 @@ If you train a model on your own WCI dataset and obtain good results, **please c
    - Your model metrics (mAP@0.5, precision, recall or anything you find relevant)
    - A download link (Zenodo, Google Drive, etc.)
 
-3. Your model will be listed in the **[Community Weights](#community-weights)** table below.
+3. Your model will be listed in the table below.
 
 <details>
 <summary><strong>Community Weights</strong> (click to expand)</summary>
