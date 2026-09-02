@@ -51,8 +51,6 @@ This repository contains the code for inference with YOLOv5.
 Models trained for fluid detection issued from several multibeam echosounders (Kongsberg EM122, EM302, Reson Seabat 7150) could be downloaded from [SEANOE repository](https://www.seanoe.org/data/00923/103478/). This fluid detector was already used for near-real time acquisition detection during the MAYOBS23 (EM122 – 2022; Perret et al. 2023) and HAITI-TWIST (Seabat Reson 7150 - 2024) cruises.
 
 
-
-
 ## How to install YOLOv5-WAL
 
 Here is how to install the environment (assuming git is already a package in your anaconda distribution). 
@@ -70,7 +68,6 @@ conda activate YOLOV5WAL
 Multibeam data are acquired in raw format (e.g, .all/.wcd, .kmall, .s7k datagrams). For inference with YOLOv5-WAL it is necessary to convert them to a Cartesian representation for each ping. This can be done using the GLOBE software. GLOBE (GLobal Oceanographic Bathymetry Explorer) is an innovative application for processing and displaying oceanographic data. GLOBE provides processing and display solutions for multi-sensor data (such as water column multibeam data). GLOBE can be downloaded [here](https://www.seanoe.org/data/00592/70460/) for Linux and Windows.
 
 ### Manual method
-
 
 Converting the raw file into a g3D file:
 
@@ -121,7 +118,9 @@ It is possible to configure:
   
 :heavy_check_mark: This G3D contains the following information that you can access:
 
-
+<details>
+<summary><strong>G3D variables</strong> (click to expand)</summary>
+  
 ```
 Groups:
   Group: [Ping number]
@@ -151,10 +150,10 @@ Groups:
 
 This manual method must be used for all raw files before inference. 
 
+</details>
 
 :arrow_forward:If you have software/code other than Globe that can extract pings from the water column and represent it as a 2D-cartesian-matrix format (numpy, as with g3D), you can direct it to the neural network for inference.
 
-### Bonus: Water-column visualization
 
 GLOBE can also help you to visualize 2D water column data ping per ping by selecting the **xsf** file :arrow_forward: Open with :arrow_forward: Water Column 2D viewer. 
 
@@ -166,24 +165,38 @@ Python code for inference can be run using the following line (models could be d
 python inference_on_G3D.py  --name_acquisition DEMO --confidence_threshold 0.3 --name_model GHASS2_Reson_Seabat.pt --dB_min 20 --dB_max 70
 ```
 
-### Parameters to be set for the inference
+Or, to avoid retyping every flag, use a config file (to adapt for your needs) (any flag also given on the command line
+overrides the file):
 
+```bash
+python inference_on_G3D.py --config example_config.json
+```
 
-* *G3D*: Path to the folder containing G3D files for inference (default: 'G3D')
-* *results*: Path to save inference results (default: 'RESULTS')
-* *folder_model*: Path to the folder containing model weights (default: 'NETWORKS')
-* *name_acquisition*: Name of the inference experiment (default: 'TEST_INFERENCE')
-* *name_model*: Name of the model file to use, including .pt extension (default: 'training_test_with_G3D.pt')
-* *confidence_threshold*: Threshold for discriminating detections (default: 0.3)
-* *size_img*: Size to resize images before inference, must be a multiple of 32 as detailed in YOLOv5 documentation (automatically resized if not) (default: 960)
-* *dB_min*: Minimum dB value for data normalization (default: -50)
-* *dB_max*: Maximum dB value for data normalization (default: 10)
+<details>
+<summary><strong>Configuration parameters to be set for the inference</strong> (click to expand)</summary>
+
+| Flag | Type | Default | Description |
+|------|------|---------|-------------|
+| `--G3D` | path | `G3D` | Folder containing the input `.nc` files. |
+| `--results` | path | `RESULTS` | Folder where outputs are written. |
+| `--folder_model` | path | `NETWORKS` | Folder containing the model weights file. |
+| `--name_model` | str | `training_test_with_G3D.pt` | Weights filename (with `.pt`). |
+| `--name_acquisition` | str | `TEST_INFERENCE` | Name of this inference run; used as the top-level output folder. |
+| `--confidence_threshold` | float | `0.2` | Minimum detection confidence kept, in [0, 1]. |
+| `--size_img` | int | `960` | Size to resize images before inference, must be a multiple of 32 as detailed in YOLOv5 documentation (automatically resized if not) (match your training size). |
+| `--dB_min` / `--dB_max` | int | `-50` / `10` | dB range mapped to pixel intensity 0–255. |
+| `--colormap` | str | `gray` | Colormap for saved annotated PNGs only (detection always runs on plain grayscale). One of: `gray`, `jet`, `turbo`, `viridis`, `inferno`, `magma`, `hot`, `bone`, `ocean`. |
+| `--batch_size` | int | `1` | Pings sent to the model per inference call. Higher is generally faster on GPU, within your VRAM budget. |
+| `--overwrite` | flag | off | Reprocess `.nc` files even if already marked done. |
+| `--device` | str | `auto` | `auto`, `cpu`, `cuda`, or `cuda:N`. |
+| `--config` | path | — | JSON/YAML file with any of the above keys; CLI flags override it. |
+| `--dump_config` | path | — | Write current effective arguments to this JSON path and exit. |
+
 
 *dB_min* and *dB_max* allow to normalize data for inference. Values below *dB_min* and above *dB_max* will be clipped to these values.  You must fix these limits to properly see fluid echoes as it will fix your colour bar. In the case of inadequately defined *dB_min/dB_max* values, the resulting inference will be of poor quality. This is due to an excessive discrepancy between the features of the training and inference data.
 For more YOLOv5 training documentation see: [YOLOv5 documentation](https://github.com/ultralytics/yolov5)
+</details>
 
-
-### Results
 
 <div align="center">
   <table>
@@ -219,7 +232,19 @@ Two folders are created, one with the images for detections and the other with t
 </div>
 
 
+```
+<results>/<name_acquisition>/
+├── boxes_images/<Layer>/…png          # annotated detection images
+├── coord_detections_center/<Layer>….csv  # one row per detection
+├── processed_markers/<Layer>.done     # written once a Layer is fully processed
+└── run_manifest_<timestamp>.json      # parameters, environment, stats for this run
+```
+
+
 The coordinates of the detections correspond to the mid-point of the detection box and can be used for visualization for instance in a Geographic Information System. The following parameters are recorded for each detection:
+
+<details>
+<summary><strong>CSV column reference</strong> (click to expand)</summary>
 
 | # | **Parameter**   | **Description** | **Unit / Type** |
 |---|---------|-------------|---------------|
@@ -248,7 +273,14 @@ The coordinates of the detections correspond to the mid-point of the detection b
 | 23 | `Q3_WC_value` | 3rd quartile (75th percentile) of WC value | dB |
 | 24 | `percent_90_WC_value` | 90th percentile of WC value | dB |
 
+</details>
 
+
+A file whose Layer already has a marker under `processed_markers/` is skipped on the next run
+unless `--overwrite` is passed. When a file is (re)processed, its previous outputs for that Layer
+are deleted first, so resuming after an interruption never creates duplicate rows.
+
+## Vizualisation of detections in GLOBE 
 This file (in *coord_detections_center folder*) can be loaded for instance in GLOBE using data > Import > Load data file. 
 Then select “point cloud” to describe this data and select ASCII parameters.
 <div align="center">
@@ -301,24 +333,7 @@ This workflow uses **YOLOv5 (2022 release)** from Ultralytics. YOLOv5 is alredy 
 > Check: [https://pytorch.org/get-started/locally/](https://pytorch.org/get-started/locally/)
 
 
-### Install Comet ML for monitoring (recommended but not mandatory)
 
-```bash
-pip install comet_ml
-```
-
-Set your Comet credentials:
-
-```bash
-export COMET_API_KEY="your_api_key_here"
-export COMET_PROJECT_NAME="yolo-wal-wci"
-export COMET_WORKSPACE="your_workspace"
-```
-
-> You can also place these in a `.env` file or in `~/.comet.config`.  
-> Create a free account at [https://www.comet.com](https://www.comet.com).
-
----
 
 ## Training dataset(s)
 
@@ -336,7 +351,9 @@ dataset/
 
 This training data contains WCIs from different MBES (full description in SEANOE). You can add your proper WCIs by extracting images from your G3D (see higher how to converted your MBES watercolumn data in a G3D). Here is an exemple of a code you can use in this objective (colorbar and dB limits can be changed depending on your data).
 
-
+<details>
+<summary><strong>WCI extraction from g3D</strong> (click to expand)</summary>
+  
 ```bash
 import os
 import shutil
@@ -385,12 +402,13 @@ for nc_file_path in sorted(os.listdir(g3D_path)):
                         valeurs_variable_colormap)
 
 ```
+</details>
 
-To label your new images dataset (if relevant):  https://pypi.org/project/labelImg/ 
+
 
 ### Label format (YOLO `.txt`)
 
-Each image has a corresponding `.txt` file with one detection per line:
+To label your new images dataset (if relevant):  https://pypi.org/project/labelImg/  Each image has a corresponding `.txt` file with one detection per line:
 
 ```
 <class_id> <x_center> <y_center> <width> <height>
@@ -448,7 +466,9 @@ python train_sonar.py \
 
 train_sonar.py is adapted for a one-channel image (the input image is duplicated for input in the 3-channel architecture). 
 
-### Key argument descriptions
+<details>
+  
+<summary><strong>Key argument descriptions</strong> (click to expand)</summary>
 
 | Argument | Description |
 |----------|-------------|
@@ -463,11 +483,27 @@ train_sonar.py is adapted for a one-channel image (the input image is duplicated
 | `--cache` | Cache images in RAM for faster training (requires sufficient memory). |
 | `--workers` | Number of dataloader workers. |
 
+</details>
+
+
 > **Comet ML** is automatically detected by YOLOv5 if `comet_ml` is installed and your API key is set. No additional flag needed — training metrics, confusion matrices, and predictions will be logged automatically.
 
----
 
-### Monitoring with Comet ML
+<summary><strong>Monitoring with Comet ML</strong> (click to expand)</summary>
+
+Install Comet ML for monitoring (recommended but not mandatory)
+
+```bash
+pip install comet_ml
+```
+
+Set your Comet credentials:
+
+```bash
+export COMET_API_KEY="your_api_key_here"
+export COMET_PROJECT_NAME="yolo-wal-wci"
+export COMET_WORKSPACE="your_workspace"
+```
 
 Once training starts, open your [Comet dashboard](https://www.comet.com) to track:
 
@@ -477,9 +513,7 @@ Once training starts, open your [Comet dashboard](https://www.comet.com) to trac
 - Sample predictions on validation images
 - GPU usage and system metrics
 
-Each run is logged as a separate experiment, making it easy to compare hyperparameter configurations.
-
----
+</details>
 
 ## Share Your Weights with the Community
 
@@ -502,7 +536,8 @@ If you train a model on your own WCI dataset and obtain good results, **please c
 
 3. Your model will be listed in the **[Community Weights](#community-weights)** table below.
 
-### Community Weights
+<details>
+<summary><strong>Community Weights</strong> (click to expand)</summary>
 
 | Contributor | Classes | MBES | Metrics | Weights |
 |-------------|---------|------------|---------|---------|
@@ -510,7 +545,8 @@ If you train a model on your own WCI dataset and obtain good results, **please c
 
 > We recommend hosting weights on **[Zenodo](https://zenodo.org)** (free, DOI-citable) or **[HuggingFace Hub](https://huggingface.co)** for long-term availability.
 
----
+</details>
+
 
 ## Troubleshooting
 
