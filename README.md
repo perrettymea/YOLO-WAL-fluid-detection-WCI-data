@@ -13,19 +13,15 @@
 - [*YOLO-WAL*: Fluid-emission detection by *W*ater-column *A*coustics and a deep-*L*earning-approach](#wal-fluid-emission-detection--by-water-column-acoustics-and-deep-learning-approach)
   - [How to install YOLOv5-WAL](#how-to-install-yolov5-wal)
   - [How to prepare multibeam data with GLOBE software (if necessary) for subsequent inference](#how-to-perform-an-inference-on-multi-beam-data-with-globe-)
-    - [Manual method](#manual-method)
-    - [Bonus: Water-column visualization](#bonus-water-column-visualization)
   - [Inference with YOLOv5-WAL: an example](#inference-with-yolov5-wal-example)
-    - [Parameters to be set for the inference](#parameters-to-be-set-for-the-inference)
-    - [Results](#results)
+  - [Visualization of detection in GLOBE](#Visualization of detections in GLOBE)
   - [Training — YOLO-WAL Fluid Detection on WCI Data](#Training-—-YOLO-WAL-Fluid-Detection-on-WCI-Data)
-    - [Environment Setup](#Environment-Setup)
-    - [Install Comet ML for monitoring](#Install-Comet-ML-for-monitoring-(recommended-but-not-mandatory))
     - [Training dataset(s)](#Training-dataset(s))
     - [Running Training](#Running-Training)
   - [Share Your Weights with the Community](#Share-Your-Weights-with-the-Community)
   - [Troubleshooting (not exhaustive)](#Troubleshooting)
   - [Acknowledgements](#acknowlegdements)
+  - [Related publications and works](#Related-publications-and-works)
   - [Licence](#licence)
   - [Citation](#citation)
   - [Contact](#contact)
@@ -66,8 +62,6 @@ conda activate YOLOV5WAL
 ## How to prepare multibeam data with GLOBE software (if necessary) for subsequent inference
 
 Multibeam data are acquired in raw format (e.g, .all/.wcd, .kmall, .s7k datagrams). For inference with YOLOv5-WAL it is necessary to convert them to a Cartesian representation for each ping. This can be done using the GLOBE software. GLOBE (GLobal Oceanographic Bathymetry Explorer) is an innovative application for processing and displaying oceanographic data. GLOBE provides processing and display solutions for multi-sensor data (such as water column multibeam data). GLOBE can be downloaded [here](https://www.seanoe.org/data/00592/70460/) for Linux and Windows.
-
-### Manual method
 
 Converting the raw file into a g3D file:
 
@@ -202,7 +196,7 @@ For more YOLOv5 training documentation see: [YOLOv5 documentation](https://githu
   <table>
     <tr>
       <td>
-        <img src="IMG\SCREENSHOTS\terminal.JPG" alt="terminal">
+        <img src="IMG\SCREENSHOTS\inference.PNG" alt="terminal">
       </td>
     </tr>
     <tr>
@@ -280,7 +274,7 @@ A file whose Layer already has a marker under `processed_markers/` is skipped on
 unless `--overwrite` is passed. When a file is (re)processed, its previous outputs for that Layer
 are deleted first, so resuming after an interruption never creates duplicate rows.
 
-## Vizualisation of detections in GLOBE 
+## Visualization of detections in GLOBE 
 This file (in *coord_detections_center folder*) can be loaded for instance in GLOBE using data > Import > Load data file. 
 Then select “point cloud” to describe this data and select ASCII parameters.
 <div align="center">
@@ -324,15 +318,11 @@ This section explains how to set up the training environment, structure your dat
 
 ---
 
-## Environment Setup
-
 This workflow uses **YOLOv5 (2022 release)** from Ultralytics. YOLOv5 is alredy present in this repository. We recommend using a dedicated conda environment compatbible with GPU for the training (refers to Ultralytics YOLOv5 repository).
 
 
 > **GPU users**: make sure PyTorch is installed with CUDA support matching your driver version.  
 > Check: [https://pytorch.org/get-started/locally/](https://pytorch.org/get-started/locally/)
-
-
 
 
 ## Training dataset(s)
@@ -486,16 +476,10 @@ train_sonar.py is adapted for a one-channel image (the input image is duplicated
 </details>
 
 
-> **Comet ML** is automatically detected by YOLOv5 if `comet_ml` is installed and your API key is set. No additional flag needed — training metrics, confusion matrices, and predictions will be logged automatically.
+**Comet ML** is automatically detected by YOLOv5 if `comet_ml` is installed and your API key is set. No additional flag needed — training metrics, confusion matrices, and predictions will be logged automatically.
 
 
-<summary><strong>Monitoring with Comet ML</strong> (click to expand)</summary>
-
-Install Comet ML for monitoring (recommended but not mandatory)
-
-```bash
-pip install comet_ml
-```
+<summary><strong>Monitoring training with CometML</strong> (click to expand)</summary>
 
 Set your Comet credentials:
 
@@ -506,7 +490,6 @@ export COMET_WORKSPACE="your_workspace"
 ```
 
 Once training starts, open your [Comet dashboard](https://www.comet.com) to track:
-
 - Loss curves (box loss, objectness loss, classification loss)
 - Precision / Recall / mAP over epochs
 - Confusion matrix
@@ -514,6 +497,7 @@ Once training starts, open your [Comet dashboard](https://www.comet.com) to trac
 - GPU usage and system metrics
 
 </details>
+
 
 ## Share Your Weights with the Community
 
@@ -564,10 +548,12 @@ See Ultralytics YOLO repository for additional help.
 
 The GAZCOGNE1 and PAMELA-MOZ01 marine expeditions were part of the PAMELA project and were co-funded by TotalEnergies and IFREMER for the exploration of continental margins. The GHASS2 marine expedition was co-funded by the Agence Nationale de la Recherche for the BLAck sea MEthane (BLAME) project and IFREMER. MAYOBS23 was conducted by several French research institutions and laboratories, namely IPGP, CNRS, BRGM, and IFREMER. The project was funded by the Mayotte volcanological and seismological monitoring network (REVOSIMA), a partnership between IPGP, BRGM, OVPF-IPGP, CNRS, and IFREMER. This study is part of a PhD project funded by IFREMER and the Brittany region through an ARED grant. 
 
+## Related publications and works
+
 :star: For more details please refer to the following resources:
 * :newspaper: [Deep-learning-based detection of underwater fluids in multiple multibeam echosounder data](https://www.frontiersin.org/journals/remote-sensing/articles/10.3389/frsen.2025.1532714/abstract) (Rules for training set composition)
 * :newspaper: [Fluid emission detection by water column acoustics and deep learning](https://archimer.ifremer.fr/doc/00991/110243/) (PhD thesis)
-* :newspaper:[Knowledge transfer for deep-learning gas-bubble detection in underwater acoustic water column data](https://archimer.ifremer.fr/doc/00904/101553/)(How to train neural network without fluid echograms from the multibeam echosounder you use)
+* :newspaper:[Knowledge transfer for deep-learning gas-bubble detection in underwater acoustic water column data](https://archimer.ifremer.fr/doc/00904/101553/) (How to train neural network without fluid echograms from the multibeam echosounder you use)
 * :newspaper:[Exploring the submerged valley of Guerlédan lake using
 multibeam echosounder water-column data and a deep
 learning network](https://hal.science/hal-05681935v1/file/Article_ICUA_WC-19.pdf)(Application of this method to underwater archeology)
