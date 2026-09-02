@@ -457,9 +457,8 @@ python train_sonar.py \
 train_sonar.py is adapted for a one-channel image (the input image is duplicated for input in the 3-channel architecture). 
 
 <details>
-  
 <summary><strong>Key argument descriptions</strong> (click to expand)</summary>
-</details>
+
 
 | Argument | Description |
 |----------|-------------|
@@ -479,9 +478,9 @@ train_sonar.py is adapted for a one-channel image (the input image is duplicated
 
 **Comet ML** is automatically detected by YOLOv5 if `comet_ml` is installed and your API key is set. No additional flag needed — training metrics, confusion matrices, and predictions will be logged automatically.
 
-
+<details>
 <summary><strong>Monitoring training with CometML</strong> (click to expand)</summary>
-</details>
+
 
 Set your Comet credentials:
 
