@@ -327,7 +327,7 @@ This workflow uses **YOLOv5 (2022 release)** from Ultralytics. YOLOv5 is alredy 
 
 ## Training dataset(s)
 
-Download the training data from the link provided here (SEANOE) and organize your folder as follows:
+Download the training data from the link provided here (SEANOE, soon) and organize your folder as follows:
 
 ```
 dataset/
