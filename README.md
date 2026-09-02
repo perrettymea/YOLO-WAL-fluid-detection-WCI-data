@@ -522,15 +522,23 @@ If you train a model on your own WCI dataset and obtain good results, **please c
 
 See Ultralytics YOLO repository for additional help.
 
-:star: For more details please refer to the following resources:
-* :newspaper: [Deep-learning-based detection of underwater fluids in multiple multibeam echosounder data](https://www.frontiersin.org/journals/remote-sensing/articles/10.3389/frsen.2025.1532714/abstract) (Rules for training set composition)
-* :newspaper:[Knowledge transfer for deep-learning gas-bubble detection in underwater acoustic water column data](https://archimer.ifremer.fr/doc/00904/101553/)(How to train neural network without fluid echograms from the multibeam echosounder you use)
-* :computer: [YOLOv5 documentation](https://github.com/ultralytics/yolov5)
-* :computer:[GLOBE](https://www.seanoe.org/data/00592/70460/)
+
 
 ## Acknowledgements
 
 The GAZCOGNE1 and PAMELA-MOZ01 marine expeditions were part of the PAMELA project and were co-funded by TotalEnergies and IFREMER for the exploration of continental margins. The GHASS2 marine expedition was co-funded by the Agence Nationale de la Recherche for the BLAck sea MEthane (BLAME) project and IFREMER. MAYOBS23 was conducted by several French research institutions and laboratories, namely IPGP, CNRS, BRGM, and IFREMER. The project was funded by the Mayotte volcanological and seismological monitoring network (REVOSIMA), a partnership between IPGP, BRGM, OVPF-IPGP, CNRS, and IFREMER. This study is part of a PhD project funded by IFREMER and the Brittany region through an ARED grant. 
+
+:star: For more details please refer to the following resources:
+* :newspaper: [Deep-learning-based detection of underwater fluids in multiple multibeam echosounder data](https://www.frontiersin.org/journals/remote-sensing/articles/10.3389/frsen.2025.1532714/abstract) (Rules for training set composition)
+* :newspaper: [Fluid emission detection by water column acoustics and deep learning](https://archimer.ifremer.fr/doc/00991/110243/) (PhD thesis)
+* :newspaper:[Knowledge transfer for deep-learning gas-bubble detection in underwater acoustic water column data](https://archimer.ifremer.fr/doc/00904/101553/)(How to train neural network without fluid echograms from the multibeam echosounder you use)
+* :newspaper:[Exploring the submerged valley of Guerlédan lake using
+multibeam echosounder water-column data and a deep
+learning network](https://hal.science/hal-05681935v1/file/Article_ICUA_WC-19.pdf)(Application of this method to underwater archeology)
+
+* :computer: [YOLOv5 documentation](https://github.com/ultralytics/yolov5)
+* :computer:[GLOBE](https://www.seanoe.org/data/00592/70460/)
+  
 ## Licence
 
 This repository is under AGPL-3.0 as YOLOv5 from [Ultralytics](https://github.com/ultralytics/yolov5). This OSI-approved open-source licence is ideal for students and enthusiasts, promoting open collaboration and knowledge sharing. See the licence file for more details.
