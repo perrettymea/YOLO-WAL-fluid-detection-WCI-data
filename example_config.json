@@ -1,0 +1,15 @@
+{
+  "G3D": "G3D",
+  "results": "RESULTS",
+  "folder_model": "NETWORKS",
+  "name_acquisition": "TEST_INFERENCE_NEW_inf_code",
+  "name_model": "GHASS2_Reson_Seabat.pt",
+  "confidence_threshold": 0.2,
+  "size_img": 960,
+  "dB_min": 20,
+  "dB_max": 70,
+  "colormap": "turbo",
+  "batch_size": 8,
+  "overwrite": false,
+  "device": "auto"
+}
