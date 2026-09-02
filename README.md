@@ -459,6 +459,7 @@ train_sonar.py is adapted for a one-channel image (the input image is duplicated
 <details>
   
 <summary><strong>Key argument descriptions</strong> (click to expand)</summary>
+</details>
 
 | Argument | Description |
 |----------|-------------|
@@ -480,6 +481,7 @@ train_sonar.py is adapted for a one-channel image (the input image is duplicated
 
 
 <summary><strong>Monitoring training with CometML</strong> (click to expand)</summary>
+</details>
 
 Set your Comet credentials:
 
