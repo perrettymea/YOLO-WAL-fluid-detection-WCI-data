@@ -14,9 +14,15 @@ dependencies:
   - pyyaml
   - tqdm
   - netcdf4
+  - psutil         
+  - gitpython      
   - pip:
+      - --index-url https://download.pytorch.org/whl/cu118
+      - --extra-index-url https://pypi.org/simple
       - torch==2.0.1
       - torchvision==0.15.2
       - torchaudio==2.0.2
       - ultralytics>=8.0.232
       - thop>=0.1.1
+      - tensorboard>=2.4.1  
+      - comet_ml
